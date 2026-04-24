@@ -24,13 +24,6 @@
 
 ---
 
-```
-claude plugin marketplace add harryy2510/claude-toolkit
-claude plugin install web-smith@claude-toolkit
-```
-
----
-
 <p align="center">
   <img src="docs/web-smith-flow.png" alt="Web Smith Flow" />
 </p>
@@ -65,30 +58,21 @@ You:  "Optimize this site for Lighthouse 100"
 
 ---
 
-## Skills
+## 🔨 website-cloner
 
-| | Skill | What |
-|---|---|---|
-| 🔨 | **website-cloner** | Scrape + rebuild a customer site as Astro static. Invokes `site-optimizer` at the end. |
-| ⚡ | **site-optimizer** | Framework-agnostic Lighthouse 100 optimization. Works on any static site. |
-
----
-
-## website-cloner
+Scrape + rebuild a customer site as a high-performance Astro static site. Invokes `site-optimizer` at the end.
 
 | Phase | What | Tools |
 |---|---|---|
 | Scrape | Pages, screenshots (3 viewports), HTML, assets, design tokens | `shot-scraper`, `dembrandt` |
 | Design System | Semantic color tokens, dark mode derivation (OKLCH), `/design-system` page | -- |
-| Scaffold | Astro 6 project with full config (ESLint, Prettier, Husky, View Transitions, theme toggle) | `bun create astro` |
+| Scaffold | Astro 6 with full config (ESLint, Prettier, Husky, View Transitions, theme toggle) | `bun create astro` |
 | Build Pages | `content.ts` + markdown, JSON-LD schemas, responsive, i18n-ready | Astro 6 |
 | Optimize | Invokes `site-optimizer` | See below |
 
-### Edge cases handled
+**Edge cases:** Cookie banner removal (13 selectors) -- SPA detection -- font licensing detection -- lazy-loaded content -- anti-bot guidance -- third-party embeds -- form backends -- dark mode image treatment -- i18n with `hreflang`
 
-Cookie banner removal (13 selectors) -- SPA detection -- font licensing detection -- lazy-loaded content capture -- anti-bot guidance -- third-party embeds -- form backends for static sites -- dark mode image treatment -- i18n with `hreflang`
-
-### Hard rules
+**Hard rules:**
 
 ```
 Zero JS by default       Only <script is:inline> for theme + mobile menu
@@ -101,9 +85,9 @@ Lighthouse 100            99+ after 200 attempts
 
 ---
 
-## site-optimizer
+## ⚡ site-optimizer
 
-Works on Astro, Next.js, Hugo, or any static site.
+Framework-agnostic Lighthouse 100 optimization. Works on Astro, Next.js, Hugo, or any static site.
 
 | Area | Covers |
 |---|---|
@@ -114,7 +98,7 @@ Works on Astro, Next.js, Hugo, or any static site.
 | Performance CSS | Font smoothing, scrollbar styling, `::selection`, tap-highlight |
 | Security | Headers reference for Cloudflare, Netlify, Vercel, Nginx, Apache |
 
-### Audit tools (all headless)
+**Audit tools (all headless):**
 
 | Tool | What |
 |---|---|
@@ -125,29 +109,20 @@ Works on Astro, Next.js, Hugo, or any static site.
 | `magick compare` | Color extraction at exact pixel coordinates |
 | `shot-scraper` | Element-level screenshots (`-s "nav"`, `-s "footer"`) |
 
-### Visual comparison
-
-Element-level screenshot diffs. Per-section (nav, hero, footer, full page). Percentage score per section. Exact color extraction at pixel coordinates. Specific feedback, not "looks different."
-
----
-
-## Prerequisites
-
-```bash
-pip install shot-scraper && shot-scraper install
-bun add -g dembrandt odiff-bin @seomator/seo-audit pa11y
-brew install imagemagick
-```
+**Visual comparison:** Element-level screenshot diffs per section (nav, hero, footer, full page). Percentage score. Exact color extraction at pixel coordinates. Specific feedback, not "looks different."
 
 ---
 
 ## Install
 
 ```bash
-# Add marketplace (one time)
-claude plugin marketplace add harryy2510/claude-toolkit
+# Prerequisites
+pip install shot-scraper && shot-scraper install
+bun add -g dembrandt odiff-bin @seomator/seo-audit pa11y
+brew install imagemagick
 
-# Install
+# Plugin
+claude plugin marketplace add harryy2510/claude-toolkit
 claude plugin install web-smith@claude-toolkit
 ```
 
