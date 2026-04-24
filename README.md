@@ -1,10 +1,10 @@
 <p align="center">
   <h1 align="center">Web Smith</h1>
   <p align="center">
-    <strong>Clone any marketing website into a Lighthouse-perfect static site.</strong>
+    <strong>Give it a URL. Get back Lighthouse 100.</strong>
   </p>
   <p align="center">
-    <code>2 skills</code> &middot; <code>0 dependencies</code> &middot; <code>Lighthouse 100</code>
+    <code>2 skills</code> &middot; <code>7 audit tools</code> &middot; <code>all headless</code> &middot; <code>pixel-perfect</code>
   </p>
 </p>
 
@@ -13,79 +13,138 @@
   <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind v4"></a>
   <a href="https://pages.cloudflare.com"><img src="https://img.shields.io/badge/Cloudflare_Pages-F38020?style=flat-square&logo=cloudflare&logoColor=white" alt="Cloudflare Pages"></a>
   <a href="https://claude.ai"><img src="https://img.shields.io/badge/Claude_Code-CC785C?style=flat-square&logo=anthropic&logoColor=white" alt="Claude Code"></a>
+  <a href="https://excalidraw.com"><img src="https://img.shields.io/badge/Excalidraw-6965DB?style=flat-square&logo=excalidraw&logoColor=white" alt="Excalidraw"></a>
 </p>
 
 ---
 
-> **Note:** Web Smith is distributed through the [claude-toolkit](https://github.com/harryy2510/claude-toolkit) marketplace.
+> Distributed through the [claude-toolkit](https://github.com/harryy2510/claude-toolkit) marketplace.
 
 ```
-+--------------------------------------------------------------------------+
-|                                                                          |
-|   claude plugin marketplace add harryy2510/claude-toolkit                |
-|   claude plugin install web-smith@claude-toolkit                         |
-|                                                                          |
-|   Give it a URL. Get back a pixel-perfect, Lighthouse 100, dark mode,    |
-|   responsive static site deployed on Cloudflare Pages.                   |
-|                                                                          |
-+--------------------------------------------------------------------------+
+claude plugin marketplace add harryy2510/claude-toolkit
+claude plugin install web-smith@claude-toolkit
 ```
 
 ---
 
-## Skills
+<p align="center">
+  <img src="docs/web-smith-flow.png" alt="Web Smith Flow" />
+</p>
 
-Loaded on-demand. Only the relevant skill enters context.
+---
 
-| Skill | What it does | Trigger |
-|-------|-------------|---------|
-| **website-cloner** | Full pipeline: scrape site, extract design tokens, scaffold Astro project, build pixel-perfect pages, optimize, audit, ship | "clone this site", "rebuild this website", "migrate from WordPress" |
-| **site-optimizer** | Framework-agnostic optimization: Lighthouse 100, SEO, AEO, WCAG accessibility, visual diff, font subsetting, security headers | "optimize this site", "fix Lighthouse score", "audit SEO" |
+## What This Does
 
-### website-cloner
+You point an AI agent at a marketing website. It scrapes everything, extracts the design system, rebuilds it as a static site, then beats the original on every metric.
+
+The customer gets their own site back -- same look, 10x faster, 100/100/100/100 Lighthouse, dark mode, responsive, deployed on Cloudflare Pages.
+
+---
+
+## Two Skills
+
+| | Skill | Scope | Trigger |
+|---|---|---|---|
+| 🔨 | **website-cloner** | Scrape + rebuild a customer site as Astro static | "clone this site", "rebuild this website" |
+| ⚡ | **site-optimizer** | Optimize any static site to Lighthouse 100 | "optimize this site", "fix Lighthouse score" |
+
+`website-cloner` does the full pipeline then invokes `site-optimizer` at the end. `site-optimizer` works standalone on any static site -- not just clones, not just Astro.
+
+---
+
+## website-cloner
 
 Clones a customer's marketing website into a high-performance Astro static site.
 
-```
-1. Scrape  -->  2. Design System  -->  3. Scaffold  -->  4. Build Pages  -->  5. Optimize (site-optimizer)
-     |                  |                     |                  |                       |
-  shot-scraper      dembrandt            Astro 6+         content.ts            Lighthouse 100
-  screenshots       color tokens         Tailwind v4      dark mode             SEO + AEO
-  HTML + assets     typography           ESLint/Prettier   responsive            WCAG a11y
-  site metadata     dark mode derive     Husky hooks       i18n ready            visual diff
-```
+**Phase 1 -- Scrape.** `shot-scraper` fetches HTML, takes screenshots at 3 viewports (desktop/tablet/mobile), downloads all assets via HAR extraction. `dembrandt` extracts design tokens (colors, fonts, spacing). Overlay removal JS strips cookie banners, modals, chat widgets before capture.
 
-**Stack:** Astro 6 + Tailwind CSS v4 + Cloudflare Pages
+**Phase 2 -- Design System.** Maps scraped colors to semantic CSS variables (`--page`, `--ink`, `--accent`). Derives dark mode via OKLCH lightness inversion even if original has none. Builds a `/design-system` page showing all tokens, typography, component states.
 
-**Tools:** shot-scraper, dembrandt, odiff, unlighthouse-ci, seomator, pa11y, pyftsubset, imagemagick
+**Phase 3 -- Scaffold.** Creates Astro 6 project with Tailwind v4, ESLint, Prettier, Husky, View Transitions, theme toggle, skip-to-content, mobile menu. Full config files provided -- `astro.config.ts`, `eslint.config.ts`, `prettier.config.ts`, `.gitignore`, `_headers`, `_redirects`.
 
-### site-optimizer
+**Phase 4 -- Build Pages.** Content in `content.ts` (structured) or markdown via Content Collections (prose). All `.astro` components, zero JS by default. SEO: JSON-LD schemas, Open Graph, sitemaps. Responsive always. i18n-ready structure. Native CSS animations, `scroll-snap` carousels, `<details>` accordions.
 
-Optimizes any static site to Lighthouse 100/100/100/100. Framework-agnostic -- works on Astro, Next.js, Hugo, or any static site.
+**Phase 5 -- Optimize + Audit + Ship.** Invokes `site-optimizer`.
+
+### Stack
 
 ```
-1. Images  -->  2. Fonts  -->  3. SEO  -->  4. Accessibility  -->  5. Audit Loop  -->  6. Ship
-     |              |             |               |                      |
-  AVIF/WebP     subset        JSON-LD          skip-to-content      unlighthouse-ci
-  responsive    self-host     Open Graph       focus-visible        seomator (AEO)
-  lazy load     WOFF2 only    meta tags        WCAG AAA             pa11y (WCAG)
-  fetchpriority swap          sitemaps         reduced-motion       visual diff
+Astro 6 (static)  +  Tailwind CSS v4  +  Cloudflare Pages
 ```
 
-**Audit tools (all headless):** unlighthouse-ci, seomator (251 SEO rules + AEO), pa11y (WCAG), odiff (pixel diff), imagemagick (color extraction)
+### Hard Rules
+
+- Zero JS by default (only `<script is:inline>` for theme + mobile menu)
+- Dark mode always (even if original has none)
+- Responsive always (even if original is not)
+- Self-hosted fonts (never Google Fonts CDN)
+- All images via Astro `<Image>` (AVIF/WebP, width/height/alt)
+- Content separated (`content.ts` or markdown, never hardcoded)
+- Lighthouse 100/100/100/100 target
+
+---
+
+## site-optimizer
+
+Framework-agnostic. Works on Astro, Next.js, Hugo, or any static site.
+
+### What It Covers
+
+| Area | What |
+|---|---|
+| **Images** | Astro `<Image>`, responsive `widths`/`sizes`, `fetchpriority="high"` on LCP, lazy everything else |
+| **Fonts** | `pyftsubset` to Latin WOFF2, `font-display: swap`, preload critical font, variable fonts for 3+ weights |
+| **SEO** | Meta tags, canonical, Open Graph, Twitter cards, JSON-LD catalog (Organization, FAQ, Article, LocalBusiness, etc.) |
+| **Accessibility** | Skip-to-content, `focus-visible`, `aria-current`, color contrast AAA (7:1), touch targets 44px, `prefers-reduced-motion` |
+| **Performance CSS** | Font smoothing, `text-rendering`, scrollbar styling, `::selection`, `-webkit-tap-highlight-color`, view transition reduced-motion |
+| **Security** | `_headers` / `_redirects` (platform-agnostic reference for Cloudflare, Netlify, Vercel, Nginx, Apache) |
+
+### Audit Tools (All Headless)
+
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│                                                                      │
+│  unlighthouse-ci     Lighthouse per-page (performance, a11y, SEO)    │
+│  seomator            251 SEO rules + AEO/GEO readiness               │
+│  pa11y               WCAG accessibility (axe-core, WCAG2AA/AAA)      │
+│  shot-scraper        Screenshots, HTML fetch, JS execution           │
+│  odiff               Pixel-level image diff + percentage score       │
+│  magick compare      Color extraction at specific coordinates        │
+│  excalidraw-cli      Diagram generation + PNG/SVG export             │
+│                                                                      │
+│  All run headless. No browser UI. Safe for autonomous agents + CI.   │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+### Visual Comparison (Pixel-Perfect Feedback)
+
+The real gap in AI-built sites: "close enough" instead of "pixel perfect." Web Smith fixes this with element-level screenshot diffs:
+
+```
+  shot-scraper original.com -s "nav" -o original-nav.png
+  shot-scraper localhost:4321 -s "nav" -o clone-nav.png
+  odiff original-nav.png clone-nav.png diff-nav.png --parsable-stdout
+
+  → "2400;2.00"  (2% diff -- needs fixing)
+
+  magick original-nav.png -crop 1x1+200+50 txt:
+  → #1B1D21
+
+  magick clone-nav.png -crop 1x1+200+50 txt:
+  → #2A2824   ← wrong color, fix the --ink token
+```
+
+Per-section diffs (nav, hero, footer, full page). Exact color extraction at pixel coordinates. Specific feedback: "heading is 4px too tall", "button is #FF0000 but should be #EE0000".
 
 ---
 
 ## Prerequisites
 
 ```bash
-# Scraping + visual diff
 pip install shot-scraper && shot-scraper install
-bun add -g dembrandt odiff-bin @seomator/seo-audit pa11y
+bun add -g dembrandt odiff-bin @seomator/seo-audit pa11y @swiftlysingh/excalidraw-cli
 brew install imagemagick
-
-# Per-project (added by website-cloner during scaffold)
-bun add -D unlighthouse
 ```
 
 ---
@@ -95,28 +154,56 @@ bun add -D unlighthouse
 ### Clone a website
 
 ```
-You: "Clone snappykraken.com"
+You:  "Clone snappykraken.com"
 
-Web Smith:
-  1. Scrapes all pages (shot-scraper: HTML, screenshots at 3 viewports, assets via HAR)
-  2. Extracts design tokens (dembrandt: colors, fonts, spacing)
-  3. Scaffolds Astro project (Tailwind v4, ESLint, Prettier, Husky, dark mode)
-  4. Builds every page pixel-perfect (content.ts, semantic HTML, JSON-LD, responsive)
-  5. Invokes site-optimizer for audit loop
-  6. Ships to Cloudflare Pages
+  1. Scrapes all pages ── shot-scraper: HTML, screenshots, assets
+  2. Extracts design   ── dembrandt: colors, fonts, spacing
+  3. Scaffolds project  ── Astro 6 + Tailwind v4 + ESLint + Husky
+  4. Builds every page  ── content.ts, JSON-LD, dark mode, responsive
+  5. Optimizes + audits ── site-optimizer: images, fonts, SEO, a11y
+  6. Visual diffs       ── odiff: per-section pixel comparison
+  7. Ships              ── Cloudflare Pages, preview URL, custom domain
 ```
 
 ### Optimize any existing site
 
 ```
-You: "Optimize this site for Lighthouse 100"
+You:  "Optimize this site for Lighthouse 100"
 
-Web Smith:
-  1. Audits with unlighthouse-ci + seomator + pa11y
-  2. Identifies failing pages and categories
-  3. Fixes issues (images, fonts, meta, contrast, CLS, LCP)
-  4. Re-audits until 100/100/100/100
-  5. Visual diff against original (if clone project)
+  1. Audits    ── unlighthouse-ci + seomator + pa11y
+  2. Identifies ── failing pages, categories, specific issues
+  3. Fixes     ── images, fonts, meta, contrast, CLS, LCP
+  4. Re-audits  ── repeat until 100/100/100/100
+  5. Ships     ── deploy to any platform
+```
+
+---
+
+## Project Structure
+
+```
+web-smith/
+├── plugins/web-smith/
+│   ├── .claude-plugin/plugin.json
+│   └── skills/
+│       ├── website-cloner/SKILL.md    ← scrape + rebuild pipeline
+│       └── site-optimizer/SKILL.md    ← optimization + audit loop
+├── docs/
+│   ├── web-smith-flow.excalidraw      ← editable diagram
+│   └── web-smith-flow.png             ← rendered diagram
+└── README.md
+```
+
+---
+
+## Install
+
+```bash
+# Add marketplace (one time)
+claude plugin marketplace add harryy2510/claude-toolkit
+
+# Install
+claude plugin install web-smith@claude-toolkit
 ```
 
 ---
@@ -124,8 +211,6 @@ Web Smith:
 ## Author
 
 **Hariom Sharma** -- [github.com/harryy2510](https://github.com/harryy2510)
-
----
 
 ## License
 
