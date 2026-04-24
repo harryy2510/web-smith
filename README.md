@@ -1,10 +1,13 @@
 <p align="center">
   <h1 align="center">Web Smith</h1>
   <p align="center">
+    A Claude Code plugin that turns any URL into a Lighthouse-100 Astro static site.
+  </p>
+  <p align="center">
     <strong>Give it a URL. Get back Lighthouse 100.</strong>
   </p>
   <p align="center">
-    <code>2 skills</code> &middot; <code>7 headless tools</code> &middot; <code>pixel-perfect diffs</code> &middot; <code>1680 lines of battle-tested process</code>
+    <code>2 skills</code> &middot; <code>7 headless tools</code> &middot; <code>pixel-perfect diffs</code>
   </p>
 </p>
 
@@ -58,7 +61,7 @@ You:  "Optimize this site for Lighthouse 100"
 
 ---
 
-## 🔨 website-cloner
+## [website-cloner](plugins/web-smith/skills/website-cloner/SKILL.md)
 
 Scrape + rebuild a customer site as a high-performance Astro static site. Invokes `site-optimizer` at the end.
 
@@ -85,7 +88,7 @@ Lighthouse 100            99+ after 200 attempts
 
 ---
 
-## ⚡ site-optimizer
+## [site-optimizer](plugins/web-smith/skills/site-optimizer/SKILL.md)
 
 Framework-agnostic Lighthouse 100 optimization. Works on Astro, Next.js, Hugo, or any static site.
 
@@ -98,7 +101,7 @@ Framework-agnostic Lighthouse 100 optimization. Works on Astro, Next.js, Hugo, o
 | Performance CSS | Font smoothing, scrollbar styling, `::selection`, tap-highlight |
 | Security | Headers reference for Cloudflare, Netlify, Vercel, Nginx, Apache |
 
-**Audit tools (all headless):**
+**Audit tools (all headless, + `dembrandt` from website-cloner = 7 total):**
 
 | Tool | What |
 |---|---|
